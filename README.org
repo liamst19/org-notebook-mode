@@ -1,3 +1,5 @@
 * org-notebook-mode
 
 (An attempt at) a minor mode for org-mode providing an option to view contents of each org-headler as a subtree in separate window. Moving to another org-header will automatically open its content.
+
+[[https::/github.com/liamst19/org-notebook-mode.git][file:data/org-notebook-mode.gif]]
