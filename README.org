@@ -1,8 +1,16 @@
-* org-notebook-mode
+#+Title: org-notebook-mode
 
-(An attempt at) a minor mode for org-mode providing an option to view contents of each org-headler as a subtree in separate window. Moving to another org-header will automatically open its content.
+This is an attempt at emulating note browsing feature found in apps like evernote desktop app, in emacs, as minor mode for org-mode.
+
+* Features and issues
+
+When toggled on, moving the cursor to a headline will show its content and subtrees in a separate "subtree" window.
 
 [[https::/github.com/liamst19/org-notebook-mode.git][file:data/org-notebook-mode.gif]]
+
+** Issues
+
+- I've encountered problems while using =org-capture= while viewing the capture target buffer with view mode on.
 
 * Installation and Setup
 
