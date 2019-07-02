@@ -10,7 +10,7 @@ When toggled on, moving the cursor to a headline will show its content and subtr
 
 ** Issues
 
-- I've encountered problems while using =org-capture= while viewing the capture target buffer with view mode on.
+- I've encountered problems with =org-capture= while viewing the capture target buffer with view mode on.
 
 * Installation and Setup
 
