@@ -10,20 +10,16 @@ Perhaps it goes without saying that =org-mode= is required for this to work. To 
 
  1. Copy =org-notebook-mode.el= into emacs load-path.
  2. In the init file (e.g. =.emacs=, =init.el=), add the following:
- 
- 
+    
     #+BEGIN_SRC emacs-lisp
     (require 'org-notebook-mode)
     #+END_SRC
     
-    
  3. You can also set the direction of the new window by setting =org-notebook-window-direction= to =right=, =left=, =above=, or =below=.
- 
- 
+    
     #+BEGIN_SRC emacs-lisp
     (setq org-notebook-window-direction 'below)
     #+END_SRC
-    
     
     The default direction is set =right=.
  4. In an org-mode buffer, =org-notebook-toggle-view= (=\C-c o=) toggle the view mode on and off. While on, move the cursor to a header and a new window should open, showing the subtree.
