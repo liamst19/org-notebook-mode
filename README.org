@@ -30,4 +30,4 @@ Perhaps it goes without saying that =org-mode= is required for this to work. To 
     #+END_SRC
     
     The default direction is set =right=.
- 4. In an org-mode buffer, =org-notebook-toggle-view= (=\C-c o=) toggle the view mode on and off. While on, move the cursor to a header and a new window should open, showing the subtree.
+ 4. In an org-mode buffer, =M-x org-notebook-toggle-view= (=\C-c o=) toggles the view mode on and off. While this mode is toggled on, moving the cursor to a header will open a new window, showing its contents.
