@@ -27,7 +27,7 @@
       (progn
         (if (eq org-notebook-mode-buffer (current-buffer))
             (progn
-              (let ((ind-buff (concat (buffer-file-name) "-subtree")))
+              (let ((ind-buff (concat (buffer-name) "-subtree")))
                 (if (org-at-heading-p)
                     (progn
                       (if (get-buffer-window ind-buff)
