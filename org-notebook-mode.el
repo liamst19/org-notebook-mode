@@ -19,16 +19,18 @@
 (defun org-subtree-to-indirect-buffer ()
   "Opens the subtree in a new indirect buffer."
   (interactive)
-  (if (and org-notebook-mode-on (org-at-heading-p))
+  (if org-notebook-mode-on
       (let ((ind-buf "org-subtree-indirect"))
-        (if (get-buffer-window ind-buf)
-            (kill-buffer ind-buf)
-          (split-window nil nil 'right))
-        (clone-indirect-buffer-other-window ind-buf t)
-        (org-narrow-to-subtree)
-        (outline-show-entry)
-        (show-children)
-        (windmove-left))))
+         (if (org-at-heading-p)
+             (progn
+               (if (get-buffer-window ind-buf)
+                   (kill-buffer ind-buf)
+                 (split-window nil nil 'right))
+               (clone-indirect-buffer-other-window ind-buf t)
+               (org-narrow-to-subtree)
+               (outline-show-entry)
+               (show-children)
+               (windmove-left))))))
 
 ;;;###autoload
 (define-minor-mode org-notebook-mode
