@@ -11,6 +11,7 @@ When toggled on, moving the cursor to a headline will show its content and subtr
 ** Issues
 
 - I've encountered problems with =org-capture= while viewing the capture target buffer with view mode on.
+- View mode doesn't seem to work while opening multiple org files.
 
 * Installation and Setup
 
