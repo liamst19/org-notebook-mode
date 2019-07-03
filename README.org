@@ -10,6 +10,12 @@ While the view mode is off, you can open a subtree window by moving the cursor t
 
 [[https::/github.com/liamst19/org-notebook-mode.git][file:data/org-notebook-mode.gif]]
 
+* Issues
+
+As this is my first attempt at programming in emacs lisp, I expect there to be many problems with the code. So far I've noticed that:
+
+- Splitting windows in the same direction as the subtree buffer seems will lead to an error which stops the mode from functioning.
+
 * Installation and Setup
 
 Perhaps it goes without saying that =org-mode= is required for this to work. To enable,
