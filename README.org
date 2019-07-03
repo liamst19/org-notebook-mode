@@ -2,7 +2,7 @@
 
 This is an attempt at emulating note browsing feature found in apps like evernote desktop app, in emacs, as minor mode for org-mode.
 
-* Features and issues
+* What it can do
 
 When M-x org-notebook-toggle-view= (=\C-c o=) is called and the view mode is toggled on, moving the cursor to a headline will show its content and subtrees in a separate "subtree" window.
 
