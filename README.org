@@ -8,10 +8,6 @@ When toggled on, moving the cursor to a headline will show its content and subtr
 
 [[https::/github.com/liamst19/org-notebook-mode.git][file:data/org-notebook-mode.gif]]
 
-** Issues
-
-- I've encountered problems with =org-capture= while viewing the capture target buffer with view mode on.
-
 * Installation and Setup
 
 Perhaps it goes without saying that =org-mode= is required for this to work. To enable,
