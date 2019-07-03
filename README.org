@@ -4,7 +4,7 @@ A minor mode for quickly viewing notes in org-mode. This is an attempt at emulat
 
 * What it can do
 
-When M-x org-notebook-toggle-view= (=\C-c o=) is called and the view mode is toggled on, moving the cursor to a headline will show its content and subtrees in a separate "subtree" window.
+When =M-x org-notebook-toggle-view= (=\C-c o=) is called and the view mode is toggled on, moving the cursor to a headline will show its content and subtrees in a separate "subtree" window.
 
 While the view mode is off, you can open a subtree window by moving the cursor to a header and calling =M-x org-notebook-subtree-to-indirect-buffer= (=S-<RET>=).
 
