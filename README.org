@@ -4,7 +4,9 @@ This is an attempt at emulating note browsing feature found in apps like evernot
 
 * Features and issues
 
-When toggled on, moving the cursor to a headline will show its content and subtrees in a separate "subtree" window.
+When M-x org-notebook-toggle-view= (=\C-c o=) is called and the view mode is toggled on, moving the cursor to a headline will show its content and subtrees in a separate "subtree" window.
+
+While the view mode is off, you can open a subtree window by moving the cursor to a header and calling =M-x org-notebook-subtree-to-indirect-buffer= (=S-<RET>=).
 
 [[https::/github.com/liamst19/org-notebook-mode.git][file:data/org-notebook-mode.gif]]
 
@@ -26,4 +28,3 @@ Perhaps it goes without saying that =org-mode= is required for this to work. To 
     #+END_SRC
     
     The default direction is set =right=.
- 4. In an org-mode buffer, =M-x org-notebook-toggle-view= (=\C-c o=) toggles the view mode on and off. While this mode is toggled on, moving the cursor to a header will open a new window, showing its contents.

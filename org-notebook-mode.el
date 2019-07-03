@@ -35,10 +35,14 @@
       ;; Turn off
       (progn
         (setq org-notebook-mode-on nil)
-        ;; Get rid of the subtree window
-        (delete-window (get-buffer-window org-notebook-mode-subtree-buffer))
-        ;; Get rid of the subtree buffer
-        (kill-buffer org-notebook-mode-subtree-buffer))
+        (let ((buf (get-buffer org-notebook-mode-subtree-buffer))
+              (buf-win (get-buffer-window org-notebook-mode-subtree-buffer)))
+          (if buf-win
+              ;; Get rid of the subtree window
+              (delete-window buf-win))
+          (if buf
+              ;; Get rid of the subtree buffer
+              (kill-buffer org-notebook-mode-subtree-buffer))))
     ;; If view mode is off, turn on
     (progn
       (setq org-notebook-mode-on t))))
@@ -53,38 +57,43 @@
 (defun org-notebook-get-window ()
   "Clear and focus on the subtree window if it exists, split a new one, or replace the subtree window from another org buffer."
   (if (not (get-buffer-window org-notebook-mode-subtree-buffer))
-    (progn
-       (let ((subtree-regexp "-subtree$"))
-         (dolist (buf (buffer-list))
-           (progn
-             (if (string-match-p subtree-regexp (buffer-name buf))
-                 (progn
-                   (delete-window (get-buffer-window buf))
-                   (kill-buffer buf)))))
-         (split-window nil nil org-notebook-window-direction)))
-      ;; Get rid of the subtree content
-      (kill-buffer org-notebook-mode-subtree-buffer)))
+      (progn
+        (let ((subtree-regexp "-subtree$"))
+          (dolist (buf (buffer-list))
+            (progn
+              (if (string-match-p subtree-regexp (buffer-name buf))
+                  (progn
+                    (if (get-buffer-window buf)
+                        (delete-window (get-buffer-window buf)))
+                    (if buf
+                        (kill-buffer buf))))))
+          (split-window nil nil org-notebook-window-direction)))
+    ;; Get rid of the subtree content
+    (kill-buffer org-notebook-mode-subtree-buffer)))
 
 ;; Indirect orgtree, reuse buffer
-(defun org-subtree-to-indirect-buffer ()
+(defun org-notebook-subtree-to-indirect-buffer ()
   "Opens the subtree in a new indirect buffer."
   (interactive)
-  (if org-notebook-mode-on
+  ;; Make sure current buffer is the original and not the subtree
+  (if (eq org-notebook-mode-buffer (current-buffer))
       (progn
-        ;; Make sure current buffer is the original and not the subtree
-        (if (eq org-notebook-mode-buffer (current-buffer))
+        (setq org-notebook-mode-subtree-buffer (concat (buffer-name) "-subtree"))
+        ;; Subtree opens only when cursor is at an org-header
+        (if (org-at-heading-p)
             (progn
-              (setq org-notebook-mode-subtree-buffer (concat (buffer-name) "-subtree"))
-              ;; Subtree opens only when cursor is at an org-header
-              (if (org-at-heading-p)
-                  (progn
-                    ;; Split or reuse window
-                    (org-notebook-get-window)
-                    ;; Generate content in the subtree buffer
-                    (org-notebook-clone-subtree-other-buffer)
-                    ;; Move back to the original buffer
-                    (org-notebook-move-back)
-                    )))))))
+              ;; Split or reuse window
+              (org-notebook-get-window)
+              ;; Generate content in the subtree buffer
+              (org-notebook-clone-subtree-other-buffer)
+              ;; Move back to the original buffer
+              (org-notebook-move-back))))))
+
+(defun org-notebook-view ()
+  "If view mode is toggled, opens subtree window on header focus"
+;;  (interactive)
+  (if org-notebook-mode-on
+      (org-notebook-subtree-to-indirect-buffer)))
 
 ;;;###autoload
 (define-minor-mode org-notebook-mode
@@ -93,8 +102,9 @@
   :lighter " notebook"
   :keymap (let ((map  (make-sparse-keymap)))
             (define-key map (kbd "C-c o") 'org-notebook-toggle-view)
+            (define-key map (kbd "S-<return>") 'org-notebook-subtree-to-indirect-buffer)
             map)
-  (add-hook 'post-command-hook 'org-subtree-to-indirect-buffer)
+  (add-hook 'post-command-hook 'org-notebook-view)
   (setq org-notebook-mode-buffer (current-buffer)))
 
 ;;;###autoload
