@@ -1,6 +1,6 @@
 #+Title: org-notebook-mode
 
-This is an attempt at emulating note browsing feature found in apps like evernote desktop app, in emacs, as minor mode for org-mode.
+A minor mode for quickly viewing notes in org-mode. This is an attempt at emulating note browsing feature found in apps like evernote desktop, where moving through titles in the "note list" would open their full contents in the "note panel".
 
 * What it can do
 
