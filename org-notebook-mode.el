@@ -12,21 +12,8 @@
  (defvar org-notebook-mode-subtree-buffer nil
    ""))
 
-(defvar org-notebook-window-direction 'right
+(defcustom org-notebook-window-direction 'right
   "The direction of org-notebook window will be created.")
-
-(defun org-notebook-move-back ()
-  "Switch back to the original buffer window from the subtree buffer window."
-  ;; I wonder if there is another way to do this, where
-  ;; the window with the original buffer can be specified.
-  (cond ((eq org-notebook-window-direction 'right)
-         (windmove-left))
-        ((eq org-notebook-window-direction 'left)
-         (windmove-right))
-        ((eq org-notebook-window-direction 'above)
-         (windmove-down))
-        ((eq org-notebook-window-direction 'below)
-         (windmove-up))))
 
 (defun org-notebook-toggle-view ()
   "Toggles org-notebook view mode"
@@ -56,38 +43,46 @@
 
 (defun org-notebook-get-window ()
   "Clear and focus on the subtree window if it exists, split a new one, or replace the subtree window from another org buffer."
-  (if (not (get-buffer-window org-notebook-mode-subtree-buffer))
-      (progn
-        (let ((subtree-regexp "-subtree$"))
+    (if (not (get-buffer-window org-notebook-mode-subtree-buffer))
+        (progn
+          ;; Get list of all buffers
           (dolist (buf (buffer-list))
             (progn
-              (if (string-match-p subtree-regexp (buffer-name buf))
+              ;; If there are other buffers with '-subtree' suffix
+              (if (string-match-p "-subtree$" (buffer-name buf))
                   (progn
+                    ;; If the buffer has a window open, close it
                     (if (get-buffer-window buf)
                         (delete-window (get-buffer-window buf)))
+                    ;; Kill the buffer
                     (if buf
                         (kill-buffer buf))))))
-          (split-window nil nil org-notebook-window-direction)))
-    ;; Get rid of the subtree content
-    (kill-buffer org-notebook-mode-subtree-buffer)))
+          ;; Open a new window for the subtree
+          (split-window nil nil org-notebook-window-direction))
+      (progn
+        ;; If subtree window preexists, get rid of the subtree content
+        (kill-buffer org-notebook-mode-subtree-buffer)
+        )))
 
 ;; Indirect orgtree, reuse buffer
 (defun org-notebook-subtree-to-indirect-buffer ()
   "Opens the subtree in a new indirect buffer."
   (interactive)
-  ;; Make sure current buffer is the original and not the subtree
-  (if (eq org-notebook-mode-buffer (current-buffer))
-      (progn
-        (setq org-notebook-mode-subtree-buffer (concat (buffer-name) "-subtree"))
-        ;; Subtree opens only when cursor is at an org-header
-        (if (org-at-heading-p)
-            (progn
-              ;; Split or reuse window
-              (org-notebook-get-window)
-              ;; Generate content in the subtree buffer
-              (org-notebook-clone-subtree-other-buffer)
-              ;; Move back to the original buffer
-              (org-notebook-move-back))))))
+  (let ((orig-win (get-buffer-window)))
+    ;; Make sure current buffer is the original and not the subtree
+    (if (eq org-notebook-mode-buffer (current-buffer))
+        (progn
+          (setq org-notebook-mode-subtree-buffer (concat (buffer-name) "-subtree"))
+          ;; Subtree opens only when cursor is at an org-header
+          (if (org-at-heading-p)
+              (progn
+                ;; Split or reuse window
+                (org-notebook-get-window)
+                ;; Generate content in the subtree buffer
+                (org-notebook-clone-subtree-other-buffer)
+                ;; Move back to the original buffer
+                (select-window orig-win)
+                ))))))
 
 (defun org-notebook-view ()
   "If view mode is toggled, opens subtree window on header focus"
